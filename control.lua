@@ -208,7 +208,7 @@ local function on_built_entity (event)
 									local replacement = entity.surface.create_entity{ name="entity-ghost", inner_name=size.."-"..material.."-blank", position=entity.position, force=entity.force}
 									replacement.get_control_behavior().parameters={parameters={{signal={type="item",name=entity.ghost_name},count=0,index=1}}}
 									replacement.operable = false
-									game.raise_event(defines.events.on_built_entity,
+									script.raise_event(defines.events.on_built_entity,
 									{
 									   tick = event.tick,
 									   name = defines.events.on_built_entity,
@@ -242,7 +242,7 @@ local function on_built_entity (event)
 										replace_name = test_name
 										local replacement = entity.surface.create_entity{ name=replace_name, position=entity.position, force=entity.force}
 										replacement.operable = false
-										game.raise_event(defines.events.on_built_entity,
+										script.raise_event(defines.events.on_built_entity,
 										{
 										   tick = event.tick,
 										   name = defines.events.on_built_entity,
@@ -260,7 +260,7 @@ local function on_built_entity (event)
 							if replace_name then 
 								local replacement = entity.surface.create_entity{ name=replace_name, position=entity.position, force=entity.force}
 								replacement.operable = false
-								game.raise_event(defines.events.on_built_entity,
+								script.raise_event(defines.events.on_built_entity,
 								{
 								   tick = event.tick,
 								   name = defines.events.on_built_entity,
@@ -294,7 +294,7 @@ local function on_built_entity (event)
 									-- replace
 									local replacement = entity.surface.create_entity{ name=replace_name,  position=entity.position, force=entity.force}
 									replacement.operable = false
-									game.raise_event(defines.events.on_built_entity,
+									script.raise_event(defines.events.on_built_entity,
 									{
 									   tick = event.tick,
 									   name = defines.events.on_built_entity,
@@ -328,7 +328,7 @@ local function on_robot_built_entity (event)
 						if replace_name == size.."-"..material.."-"..symbol then 
 							local replacement = entity.surface.create_entity{ name=replace_name, position=entity.position, force=entity.force}
 							replacement.operable = false
-							game.raise_event(defines.events.on_robot_built_entity,
+							script.raise_event(defines.events.on_robot_built_entity,
 							{
 							   tick = event.tick,
 							   name = defines.events.on_robot_built_entity,
@@ -358,7 +358,7 @@ local function on_entity_died (event)
                         local replacement = entity.surface.create_entity{ name="entity-ghost", inner_name=size.."-"..material.."-blank", position=entity.position, force=entity.force}
                         replacement.get_control_behavior().parameters={parameters={{signal={type="item",name=entity.name},count=0,index=1}}}
                         replacement.operable = false
-                        game.raise_event(defines.events.on_robot_built_entity,
+                        script.raise_event(defines.events.on_robot_built_entity,
                             {
                                 robot = {},
                                 tick = event.tick,
@@ -391,7 +391,7 @@ local function on_entity_revived(event)
                     if replace_name == size.."-"..material.."-"..symbol then
                         local replacement = entity.surface.create_entity{ name=replace_name, position=entity.position, force=entity.force}
                         replacement.operable = false
-                        game.raise_event(defines.events.on_robot_built_entity,
+                        script.raise_event(defines.events.on_robot_built_entity,
                             {
                                 robot = {},
                                 tick = event.tick,
