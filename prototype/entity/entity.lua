@@ -28,7 +28,7 @@ end
 for _, material in ipairs(textplates.materials) do
 	for _, size in ipairs(textplates.sizes) do
 		for _, symbol in ipairs(textplates.symbols) do
-			local entity = { 
+			local entity = {
 				type = "constant-combinator",
 				name = size.."-"..material.."-"..symbol,
 				icon = "__textplates__/graphics/icon/"..size.."/"..material.."_"..symbol..".png",
@@ -79,7 +79,7 @@ for _, material in ipairs(textplates.materials) do
 				  text_connections()
 				},
 				circuit_wire_max_distance = 0,
-				localised_name = { "entity-name.text-plate", { size }, { material }, { symbol } }
+				localised_name = { "entity-name.text-plate", { "textplates."..size }, {"textplates.".. material }, { "textplates."..symbol } }
 
 			}
 			if(symbol == "blank") then -- add constant slot
@@ -90,7 +90,7 @@ for _, material in ipairs(textplates.materials) do
 				entity.max_health = 100
 				entity.collision_box = {{-0.9, -0.9}, {0.9, 0.9}}
 				entity.selection_box = {{-1, -1}, {1, 1}}
-				entity.minable.mining_time = 0.5 
+				entity.minable.mining_time = 0.5
 			end
 			data:extend({entity})
 		end

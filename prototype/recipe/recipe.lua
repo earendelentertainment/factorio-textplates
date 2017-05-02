@@ -1,6 +1,6 @@
 for _, material in ipairs(textplates.materials) do
 	for _, size in ipairs(textplates.sizes) do
-		local recipe = { 
+		local recipe = {
 			type = "recipe",
 			name = size.."-"..material.."-blank",
 			icon = "__textplates__/graphics/icon/"..size.."/"..material.."_blank"..".png",

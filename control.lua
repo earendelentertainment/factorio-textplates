@@ -2,11 +2,11 @@
 CUSTOM EVENTS USED
 
 on_entity_revived
-raise_event implementation: raise_event('on_entity_revived', {entity=LuaEntity, player_index=player.player_index}) 
+raise_event implementation: raise_event('on_entity_revived', {entity=LuaEntity, player_index=player.player_index})
 on_event implementation: remote.add_interface("mymod", { on_entity_revived = function(data) return myfunction(data.entity, data.player_index) end})
 
 ]]--
-local function raise_event(event_name, event_data) 
+local function raise_event(event_name, event_data)
 	local responses = {}
 	for interface_name, interface_functions in pairs(remote.interfaces) do
 		if interface_functions[event_name] then
@@ -25,7 +25,7 @@ local function item_suffix_from_char(character)
 	return textplates.symbol_by_char[string.lower( character )] or default_symbol
 end
 
-local function prep_player_plate_options(player_index) 
+local function prep_player_plate_options(player_index)
 	if not global.plates_players then
 		global.plates_players = {}
 	end
@@ -36,7 +36,7 @@ end
 
 local function show_gui(player, item_name)
 	local item_prefix = string.gsub(item_name, "-blank", "")
-	
+
 	-- remove any UIs of the other plate types
 	for _, material in ipairs(textplates.materials) do
 		for _, size in ipairs(textplates.sizes) do
@@ -45,12 +45,12 @@ local function show_gui(player, item_name)
 			end
 		end
 	end
-	
+
 	-- add the desired plate type UI
 	if player.gui.left[item_prefix] == nil then
-		local plate_frame = player.gui.left.add{type = "frame", name = item_prefix, caption = {"text-plate-ui-title"}, direction = "vertical"}
+		local plate_frame = player.gui.left.add{type = "frame", name = item_prefix, caption = {"textplates.text-plate-ui-title"}, direction = "vertical"}
 		local plates_table = plate_frame.add{type ="table", name = "plates_table", colspan = 6, style = "plates-table"}
-		
+
 		for _, symbol in ipairs(textplates.symbols) do
 			if not(symbol == "blank") then
 				local plate_option = item_prefix.."-"..symbol
@@ -61,13 +61,13 @@ local function show_gui(player, item_name)
 				end
 			end
 		end
-		
-		local plates_input_label = plate_frame.add{type ="label", name = "plates_input_label", caption={"text-plate-input-label"}}
+
+		local plates_input_label = plate_frame.add{type ="label", name = "plates_input_label", caption={"textplates.text-plate-input-label"}}
 		local plates_input = plate_frame.add{type ="textfield", name = "plates_input"}
-		
+
 		prep_player_plate_options(player.index)
 		global.plates_players[player.index][item_prefix] = item_prefix.."-"..default_symbol
-		
+
 	end
 end
 
@@ -99,7 +99,7 @@ local function on_player_cursor_stack_changed(event)
 	else
 		hide_gui(player)
 	end
-end 
+end
 
 
 local function on_gui_click(event)
@@ -135,7 +135,7 @@ local function prep_next_symbol(player_index)
 			if player.gui.left[size.."-"..material] and player.gui.left[size.."-"..material].plates_input and player.gui.left[size.."-"..material].plates_table then
 				prep_player_plate_options(player_index)
 				local text = player.gui.left[size.."-"..material].plates_input.text
-				if string.len(text) > 0 then 
+				if string.len(text) > 0 then
 					local first_char = string.sub(text, 1, 1)
 					local next_name = size.."-"..material.."-"..item_suffix_from_char(first_char)
 					for _,buttonname in ipairs(player.gui.left[size.."-"..material].plates_table.children_names) do
@@ -177,13 +177,13 @@ local function on_built_entity (event)
 								prep_player_plate_options(player_index)
 								local replace_name = size.."-"..material.."-"..default_symbol -- default
 								-- loaded value
-								if global.plates_players[player_index][size.."-"..material] then 
+								if global.plates_players[player_index][size.."-"..material] then
 									replace_name = global.plates_players[player_index][size.."-"..material]
 								end
 								-- sequence
 								if player.gui.left[size.."-"..material] and player.gui.left[size.."-"..material].plates_input then
 									local text = player.gui.left[size.."-"..material].plates_input.text
-									if string.len(text) > 0 then 
+									if string.len(text) > 0 then
 										local first_char = string.sub(text, 1, 1)
 										local remainder = string.sub(text, 2, -1)
 										player.gui.left[size.."-"..material].plates_input.text = remainder
@@ -191,8 +191,8 @@ local function on_built_entity (event)
 										prep_next_symbol(player_index)
 									end
 								end
-								
-								if replace_name ~= entity.name then 
+
+								if replace_name ~= entity.name then
 									-- replace
 									entity.get_control_behavior().parameters={parameters={{signal={type="item",name=replace_name},count=0,index=1}}}
 									return
@@ -233,12 +233,12 @@ local function on_built_entity (event)
 							-- check to see if this is a revived or script-spawned enetity (from a blueprint)
 							-- if it is configured to become a letter let it do it
 							local replace_name = nil
-							if entity.get_control_behavior().parameters.parameters[1] 
+							if entity.get_control_behavior().parameters.parameters[1]
 								and entity.get_control_behavior().parameters.parameters[1].signal
 								and entity.get_control_behavior().parameters.parameters[1].signal.name then
 								local test_name = entity.get_control_behavior().parameters.parameters[1].signal.name
 								for _, symbol in ipairs(textplates.symbols) do
-									if test_name == size.."-"..material.."-"..symbol then 
+									if test_name == size.."-"..material.."-"..symbol then
 										replace_name = test_name
 										local replacement = entity.surface.create_entity{ name=replace_name, position=entity.position, force=entity.force}
 										replacement.operable = false
@@ -257,7 +257,7 @@ local function on_built_entity (event)
 									end
 								end
 							end
-							if replace_name then 
+							if replace_name then
 								local replacement = entity.surface.create_entity{ name=replace_name, position=entity.position, force=entity.force}
 								replacement.operable = false
 								script.raise_event(defines.events.on_built_entity,
@@ -275,13 +275,13 @@ local function on_built_entity (event)
 								prep_player_plate_options(player_index)
 								local replace_name = size.."-"..material.."-"..default_symbol -- default
 								-- loaded value
-								if global.plates_players[player_index][size.."-"..material] then 
+								if global.plates_players[player_index][size.."-"..material] then
 									replace_name = global.plates_players[player_index][size.."-"..material]
 								end
 								-- sequence
 								if player.gui.left[size.."-"..material] and player.gui.left[size.."-"..material].plates_input then
 									local text = player.gui.left[size.."-"..material].plates_input.text
-									if string.len(text) > 0 then 
+									if string.len(text) > 0 then
 										local first_char = string.sub(text, 1, 1)
 										local remainder = string.sub(text, 2, -1)
 										player.gui.left[size.."-"..material].plates_input.text = remainder
@@ -289,8 +289,8 @@ local function on_built_entity (event)
 										prep_next_symbol(player_index)
 									end
 								end
-								
-								if replace_name ~= entity.name then 
+
+								if replace_name ~= entity.name then
 									-- replace
 									local replacement = entity.surface.create_entity{ name=replace_name,  position=entity.position, force=entity.force}
 									replacement.operable = false
@@ -325,7 +325,7 @@ local function on_robot_built_entity (event)
 					entity.operable = false
 					local replace_name = entity.get_control_behavior().parameters.parameters[1].signal.name
 					for _, symbol in ipairs(textplates.symbols) do
-						if replace_name == size.."-"..material.."-"..symbol then 
+						if replace_name == size.."-"..material.."-"..symbol then
 							local replacement = entity.surface.create_entity{ name=replace_name, position=entity.position, force=entity.force}
 							replacement.operable = false
 							script.raise_event(defines.events.on_robot_built_entity,
@@ -409,7 +409,7 @@ local function on_entity_revived(event)
         end
     end
 end
-	
+
 script.on_event(defines.events.on_gui_click, on_gui_click)
 script.on_event(defines.events.on_player_cursor_stack_changed, on_player_cursor_stack_changed)
 script.on_event(defines.events.on_gui_text_changed, on_gui_text_changed)
@@ -417,6 +417,6 @@ script.on_event(defines.events.on_built_entity, on_built_entity)
 script.on_event(defines.events.on_robot_built_entity, on_robot_built_entity)
 script.on_event(defines.events.on_entity_died, on_entity_died)
 
-remote.add_interface("textplates", { 
+remote.add_interface("textplates", {
 	on_entity_revived = function(data) return on_entity_revived(data) end,
 })
