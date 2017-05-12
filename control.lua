@@ -205,7 +205,13 @@ local function on_built_entity (event)
 						for _, size in ipairs(textplates.sizes) do
 							for _, symbol in ipairs(textplates.symbols) do
 								if symbol ~= "blank" and entity.ghost_name == size.."-"..material.."-"..symbol then
-									local replacement = entity.surface.create_entity{ name="entity-ghost", inner_name=size.."-"..material.."-blank", position=entity.position, force=entity.force}
+									local replacement = entity.surface.create_entity{
+                    name = "entity-ghost",
+                    inner_name = size.."-"..material.."-blank",
+                    position = entity.position,
+                    force = entity.force,
+                    expires = false
+                  }
 									replacement.get_control_behavior().parameters={parameters={{signal={type="item",name=entity.ghost_name},count=0,index=1}}}
 									replacement.operable = false
 									script.raise_event(defines.events.on_built_entity,
@@ -355,7 +361,13 @@ local function on_entity_died (event)
             for _, size in ipairs(textplates.sizes) do
                 for _, symbol in ipairs(textplates.symbols) do
                     if entity.name == size.."-"..material.."-"..symbol then
-                        local replacement = entity.surface.create_entity{ name="entity-ghost", inner_name=size.."-"..material.."-blank", position=entity.position, force=entity.force}
+                        local replacement = entity.surface.create_entity{
+                          name = "entity-ghost",
+                          inner_name = size.."-"..material.."-blank",
+                          position = entity.position,
+                          force = entity.force,
+                          expires = false
+                        }
                         replacement.get_control_behavior().parameters={parameters={{signal={type="item",name=entity.name},count=0,index=1}}}
                         replacement.operable = false
                         script.raise_event(defines.events.on_robot_built_entity,
