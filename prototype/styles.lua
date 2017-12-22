@@ -1,14 +1,14 @@
-data.raw["gui-style"]["default"]["plates-table"] =
+data.raw["gui-style"].default["plates-table"] =
 {
   type = "table_style",
   cell_spacing = 1,
   horizontal_spacing = 1,
   vertical_spacing = 1
 }
-data.raw["gui-style"]["default"]["plates-button"] =
+data.raw["gui-style"].default["plates-button"] =
 {
   type = "button_style",
-  parent = "button_style",
+  parent = "button",
   minimal_width = 32,
   minimal_height = 32,
   top_padding = 0,
@@ -16,10 +16,10 @@ data.raw["gui-style"]["default"]["plates-button"] =
   bottom_padding = 0,
   left_padding = 0,
 }
-data.raw["gui-style"]["default"]["plates-button-active"] =
+data.raw["gui-style"].default["plates-button-active"] =
 {
   type = "button_style",
-  parent = "button_style",
+  parent = "button",
   minimal_width = 32,
   minimal_height = 32,
   top_padding = 0,
