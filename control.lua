@@ -50,7 +50,7 @@ local function show_gui(player, item_name)
   -- add the desired plate type UI
   if player.gui.left[item_prefix] == nil then
     local plate_frame = player.gui.left.add{type = "frame", name = item_prefix, caption = {"textplates.text-plate-ui-title"}, direction = "vertical"}
-    local plates_table = plate_frame.add{type ="table", name = "plates_table", colspan = 6, style = "plates-table"}
+    local plates_table = plate_frame.add{type ="table", name = "plates_table", colspan = 8, style = "plates-table", column_count = 8 }
 
     for _, symbol in ipairs(textplates.symbols) do
       if not(symbol == "blank") then
